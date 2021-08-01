@@ -36,3 +36,14 @@ P.S. also remember
 $ docker ps -a
 to see all containers and there images running (or not indicated with -a) so we can also see our Oracle, Postgress and
 Java Spring Boot microservices containers, that can be activated wit docker-compose.
+
+See also:
+https://hub.docker.com/_/mariadb
+https://github.com/MariaDB/mariadb-docker/tree/3afe9953898422c1ca6b3986dd6fa255ad10eb70
+https://github.com/MariaDB/mariadb-docker/blob/3afe9953898422c1ca6b3986dd6fa255ad10eb70/10.6/Dockerfile
+https://onexlab-io.medium.com/docker-compose-mariadb-multiple-database-c24f75f4c3c8
+https://www.baeldung.com/linux/docker-multiple-databases
+https://github.com/MariaDB/mariadb-docker/issues/68
+
+compare with Postgress
+https://phoenixnap.com/kb/deploy-postgresql-on-docker
