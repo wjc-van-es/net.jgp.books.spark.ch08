@@ -1,0 +1,38 @@
+We added a docker/ directory with a docker-compose.yml and we copied the 2 sql files to set up the database schema
+
+From a terminal we started the mariadb docker container with:
+~/resources/git/net.jgp.books.spark.ch08/docker$ docker-compose up
+
+With DBeaver we could connect as root@localhost:3306/sakila, but the results of the 2 init sql scripts could not be seen.
+We could run the files within the DBeaver connection, for this we had to get rid of the trigger definitions in
+data/1-sakila-schema.sql.
+However, tinkering of the docker/docker-compose.yml file for a limited amount of time did not result in a successful
+run of the init sql files during docker-compose up.
+
+We did remember to discard the fixed docker volume after each
+~/resources/git/net.jgp.books.spark.ch08/docker$ docker-compose down
+with:
+~$ docker volume ls
+DRIVER    VOLUME NAME
+local     49b609c7e7bfc6d0dee7e15af241229830dbf8fee21009ee5852f91a3b9de68b
+local     c733b83ca957854b924331644da529182824c4c918bef2488faf89f0aaa33934
+local     docker_smia-ch5-postgres-volume
+local     docker_sparkia-ch08-mariadb-volume
+~$ docker volume rm docker_sparkia-ch08-mariadb-volume
+docker_sparkia-ch08-mariadb-volume
+~$ docker volume ls
+DRIVER    VOLUME NAME
+local     49b609c7e7bfc6d0dee7e15af241229830dbf8fee21009ee5852f91a3b9de68b
+local     c733b83ca957854b924331644da529182824c4c918bef2488faf89f0aaa33934
+local     docker_smia-ch5-postgres-volume
+
+For now we just leave the database initialized from the DBeaver connection and leave the
+docker_sparkia-ch08-mariadb-volume between docker-compose runs.
+
+And with that partial successful docker-compose insttallation of mariadb we could successfully run all MySQL data
+ingestion examples within this project.
+
+P.S. also remember
+$ docker ps -a
+to see all containers and there images running (or not indicated with -a) so we can also see our Oracle, Postgress and
+Java Spring Boot microservices containers, that can be activated wit docker-compose.

@@ -35,17 +35,20 @@ public class MySQLToDatasetWithOptionsApp {
     // In a "one-liner" with method chaining and options
     Dataset<Row> df = spark.read()
         .option("url", "jdbc:mysql://localhost:3306/sakila")
-        .option("dbtable", "actor")
+//        .option("dbtable", "actor")
+        .option("dbtable", "nicer_but_slower_film_list") // this is actually a view not a table, but it works as well
         .option("user", "root")
         .option("password", "Spark<3Java")
         .option("useSSL", "false")
         .option("serverTimezone", "EST")
         .format("jdbc")
         .load();
-    df = df.orderBy(df.col("last_name"));
+    // the nicer_but_slower_film_list has no last_name column (use title column instead)
+    //df = df.orderBy(df.col("last_name"));
+    df = df.orderBy(df.col("title"));
 
     // Displays the dataframe and some of its metadata
-    df.show(5);
+    df.show(5, 80);
     df.printSchema();
     System.out.println("The dataframe contains "
         + df.count()

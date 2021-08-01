@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  db:
+    image: mariadb:10.6
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: Spark<3Java
+      MYSQL_DATABASE: sakila # when commented out I expect to run in the mysql db instance
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Spark<3Java
+
+    # adding a third named (fixed) volume for persisting data between runs (which, as named volume, must be listed under
+    # the top-level volumes key, added at the bottom of the file)
+    # this volume will be situated on the host under /var/lib/docker/volumes
+    # after the first run data will remain in /var/lib/docker/volumes/sparkia-ch08-mariadb-volume and the sql scripts won't be executed again
+    # only after removing the named volume with $ docker volume rm sparkia-ch08-mariadb-volume will the scripts be run
+    # together with the volume recreation
+    volumes:
+      - ./1-sakila-schema.sql:/docker-entrypoint-initdb.d/1-sakila-schema.sql
+      - ./2-sakila-data.sql:/docker-entrypoint-initdb.d/2-sakila-data.sql
+      - sparkia-ch08-mariadb-volume:/var/lib/mysql # adding fixed volume for data storage
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+# top level volumes key was added to accommodate the named volume smia-ch5-postgres-volume under the database service
+volumes:
+  sparkia-ch08-mariadb-volume:
