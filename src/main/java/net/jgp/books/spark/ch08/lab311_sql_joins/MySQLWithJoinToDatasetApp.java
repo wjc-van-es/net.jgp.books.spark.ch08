@@ -60,7 +60,7 @@ public class MySQLWithJoinToDatasetApp {
                 props);
 
         // Displays the dataframe and some of its metadata
-        df.show(5);
+        df.show(15);
         df.printSchema();
         System.out.println("The dataframe contains " + df
                 .count() + " record(s).");

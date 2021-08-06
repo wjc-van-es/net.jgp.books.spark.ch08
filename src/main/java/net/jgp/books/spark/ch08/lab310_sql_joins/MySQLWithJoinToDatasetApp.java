@@ -41,21 +41,36 @@ public class MySQLWithJoinToDatasetApp {
         props.put("useSSL", "false");
         props.put("serverTimezone", "EST");
 
-        // Builds the SQL query doing the join operation
-        String sqlQuery =
+        // Builds the SQL query doing a theta join operation
+        String thetaJoinSyntax =
+                "select actor.first_name, actor.last_name, film.title,"
+                        + " film.description"
+                        + " from actor, film_actor, film"
+                        + " where actor.actor_id = film_actor.actor_id"
+                        + " and film_actor.film_id = film.film_id"
+                        + " and actor.last_name = 'WINSLET'"
+                        + " and film.rating = 'NC-17'";
+
+        // inner join syntax with the same result
+        String joinSyntaxQuery =
                 "select actor.first_name, actor.last_name, film.title, "
-                        + "film.description "
-                        + "from actor, film_actor, film "
-                        + "where actor.actor_id = film_actor.actor_id "
-                        + "and film_actor.film_id = film.film_id";
+                + "film.description"
+                + " from actor"
+                + " inner join film_actor"
+                + " on actor.actor_id = film_actor.actor_id"
+                + " inner join film"
+                + " on film_actor.film_id = film.film_id"
+                + " where actor.last_name = 'WINSLET'"
+                + " and film.rating = 'NC-17'";
 
         Dataset<Row> df = spark.read().jdbc(
                 "jdbc:mysql://localhost:3306/sakila",
-                "(" + sqlQuery + ") actor_film_alias",
+                //when you use a select query as table parameter it must be surrounded with parentheses followed by an alias
+                "(" + joinSyntaxQuery + ") actor_film_alias",
                 props);
 
         // Displays the dataframe and some of its metadata
-        df.show(5);
+        df.show(12, 80);
         df.printSchema();
         System.out.println("The dataframe contains " + df
                 .count() + " record(s).");

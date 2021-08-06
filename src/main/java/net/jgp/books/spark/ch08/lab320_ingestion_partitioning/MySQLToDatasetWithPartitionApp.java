@@ -46,7 +46,7 @@ public class MySQLToDatasetWithPartitionApp {
         props.put("partitionColumn", "fid");
         props.put("lowerBound", "1");
         props.put("upperBound", "1000");
-        props.put("numPartitions", "8");
+        props.put("numPartitions", "4");
 
         // Let's look for all movies matching the query
         Dataset<Row> df = spark.read().jdbc(
@@ -61,5 +61,7 @@ public class MySQLToDatasetWithPartitionApp {
                 .count() + " record(s).");
         System.out.println("The dataframe is split over " + df.rdd()
                 .getPartitions().length + " partition(s).");
+        System.out.println("The dataframe's rdd " + df.rdd()
+                .toString());
     }
 }

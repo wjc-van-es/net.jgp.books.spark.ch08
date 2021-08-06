@@ -50,11 +50,12 @@ public class MySQLWithWhereClauseToDatasetApp {
         // Let's look for all movies matching the query
         Dataset<Row> df = spark.read().jdbc(
                 "jdbc:mysql://localhost:3306/sakila",
+                //when you use a select query as table parameter it must be surrounded with parentheses followed by an alias
                 "(" + sqlQuery + ") film_alias",
                 props);
 
         // Displays the dataframe and some of its metadata
-        df.show(5);
+        df.show(16);
         df.printSchema();
         System.out.println("The dataframe contains " + df
                 .count() + " record(s).");

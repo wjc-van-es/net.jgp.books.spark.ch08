@@ -42,7 +42,7 @@ public class MySQLToDatasetApp {
         Dataset<Row> df = spark.read().jdbc(
                 "jdbc:mysql://localhost:3306/sakila?serverTimezone=EST",
                 "actor", props);
-        df = df.orderBy(df.col("last_name"));
+        df = df.orderBy(df.col("last_name"), df.col("first_name"));
 
         // Displays the dataframe and some of its metadata
         df.show(5);

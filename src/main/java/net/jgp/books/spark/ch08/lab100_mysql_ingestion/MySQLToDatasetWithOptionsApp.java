@@ -45,7 +45,7 @@ public class MySQLToDatasetWithOptionsApp {
         .load();
     // the nicer_but_slower_film_list has no last_name column (use title column instead)
     //df = df.orderBy(df.col("last_name"));
-    df = df.orderBy(df.col("title"));
+    df = df.orderBy(df.col("category"), df.col("title") );
 
     // Displays the dataframe and some of its metadata
     df.show(5, 80);
